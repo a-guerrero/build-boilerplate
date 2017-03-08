@@ -1,0 +1,18 @@
+# OS X folder attributes
+.DS_Store
+
+# Node JS Modules
+# Commenting this out is preferred by some people, see
+# https://npmjs.org/doc/faq.html#Should-I-check-my-node_modules-folder-into-git
+node_modules
+
+# Editors settings
+*.sublime-workspace
+*.sublime-project
+.vscode
+
+# Webpack generated manifest
+app/views/data/webpack-assets.json
+
+# Build folder (or src, public, bin, dest)
+dist
