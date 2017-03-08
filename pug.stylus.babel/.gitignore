@@ -16,3 +16,6 @@ app/views/data/webpack-assets.json
 
 # Build folder (or src, public, bin, dest)
 dist
+
+#Yarn
+yarn.lock
