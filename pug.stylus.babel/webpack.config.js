@@ -2,10 +2,10 @@
 // Implicit vendor chunk: http://bit.ly/2lEZgnJ
 // Caching: http://bit.ly/2mHs7rk
 
+let isProduction = require('./gulp_tasks/utils/isProduction')
 let webpack = require('webpack');
 let AssetsPlugin = require('assets-webpack-plugin')
 let path = require('path');
-let isProduction = process.env.NODE_ENV === 'production';
 
 let config = {
     entry: {
@@ -16,7 +16,7 @@ let config = {
         ]
     },
     output: {
-        filename: '[name].[chunkhash].js',
+        filename: '[name].js',
         path: path.resolve(__dirname, 'dist/scripts')
     },
     module: {
@@ -41,12 +41,14 @@ let config = {
     ]
 };
 
-if (isProduction) {
-    // Optimization
+if (isProduction()) {
+    // Only use [chunkhash] in production since it increases compilation time
+    config.output.filename = '[name].[chunkhash].js';
+    // Scripts minification
     let uglifyJsPlugin = new webpack.optimize.UglifyJsPlugin();
     config.plugins.push(uglifyJsPlugin);
 } else {
-    // Source maps support
+    // Only use source maps in development
     config.devtool = 'source-map';
 }
 

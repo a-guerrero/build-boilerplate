@@ -1,11 +1,8 @@
 let gulp = require('gulp');
-let webpack = require('webpack');
-let gulpWebpack = require('gulp-webpack');
-let webpackConfig = require('./webpack.config.js');
+let runSequence = require('run-sequence');
+let requireDir = require('require-dir');
+let tasks = requireDir('./gulp_tasks');
 
-gulp.task('scripts', () =>
-    gulp
-        .src('app/scripts/main.js')
-        .pipe(gulpWebpack(webpackConfig, webpack))
-        .pipe(gulp.dest('dist/scripts'))
-);
+gulp.task('build', callback => {
+    runSequence('scripts', callback);
+});
