@@ -1,4 +1,10 @@
+// There are some issues with webpack and `process.env.NODE_ENV`, the
+// recommended approach is to set it manually with cross-env:
+// `cross-env NODE_ENV=production webpack -p`
+// Building for production: http://bit.ly/2p0hKzn
+// Issue #2537: http://bit.ly/2oPpOmb
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
