@@ -7,6 +7,13 @@ const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+// Extracts css files for production
+const sassExtract = new ExtractTextPlugin({
+    filename: '[name].[contenthash].css',
+    disable: !IS_PRODUCTION,
+});
 
 const config = {
     entry: './src/main.js',
@@ -35,12 +42,33 @@ const config = {
                 test: /\.pug$/,
                 loader: 'pug-loader',
             },
+            {
+                test: [/\.sass$/, /\.scss$/],
+                use: sassExtract.extract({
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                sourceMap: true
+                            }
+                        },
+                        {
+                            loader: 'sass-loader',
+                            options: {
+                                sourceMap: true
+                            },
+                        },
+                    ],
+                    fallback: 'style-loader',
+                })
+            }
         ],
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/views/index.pug',
         }),
+        sassExtract
     ],
     devServer: {
         contentBase: path.join(__dirname, 'dest')
