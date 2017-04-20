@@ -1,3 +1,4 @@
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -7,6 +8,7 @@ const config = {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dest'),
     },
+    devtool: 'cheap-module-eval-source-map',
     module: {
         rules: [
             {
@@ -38,5 +40,11 @@ const config = {
         contentBase: path.join(__dirname, 'dest')
     }
 };
+
+if (IS_PRODUCTION) {
+    // It is recommended to have source maps in production for debugging and
+    // benchmark testing: http://bit.ly/2pWJ6Uw
+    config.devtool = 'source-maps';
+}
 
 module.exports = config;
